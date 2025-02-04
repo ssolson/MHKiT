@@ -28,19 +28,6 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Cleanup Old Previews
-        if: github.event.inputs.cleanup == 'yes'
-        run: |
-          git clone --single-branch --branch gh-pages https://github.com/ssolson/MHKiT.git gh-pages
-          cd gh-pages
-          # Keep only the 3 most recent preview directories
-          ls -dt pr-previews/* | tail -n +4 | xargs -r rm -rf
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git add -A
-          git commit -m "Cleanup old preview deployments" || echo "No cleanup needed"
-          git push
-
       - name: Setup Conda Environment
         uses: conda-incubator/setup-miniconda@v2
         with:
