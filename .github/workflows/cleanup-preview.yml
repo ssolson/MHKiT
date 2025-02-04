@@ -1,1 +1,29 @@
- 
+name: Cleanup PR Preview
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GH_PAGES_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Delete PR Preview
+        run: |
+          git clone --single-branch --branch gh-pages https://github.com/ssolson/MHKiT.git gh-pages
+          cd gh-pages
+          rm -rf pr-previews/${{ github.event.pull_request.number }}
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git add -A
+          git commit -m "Remove preview for PR #${{ github.event.pull_request.number }} (${MERGED_STATUS})" || echo "No cleanup needed"
+          git push
+        env:
+          MERGED_STATUS: ${{ github.event.pull_request.merged && 'merged' || 'closed' }}
