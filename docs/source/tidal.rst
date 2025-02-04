@@ -15,6 +15,7 @@ Examples
 - `Python Tidal Example Notebook <tidal_example.ipynb>`_
 - `Python Tidal Power Performance Example <tidal_performance_example.ipynb>`_
 - `MATLAB Tidal Example LiveScript <mhkit-matlab/tidal_example.html>`_
+- small change
 
 
 Submodules
