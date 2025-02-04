@@ -12,10 +12,6 @@ on:
       pr_number:
         description: 'Pull Request Number'
         required: true
-      cleanup:
-        description: 'Cleanup old previews (yes/no)'
-        required: true
-        default: 'no'
 
 jobs:
   deploy_preview:
